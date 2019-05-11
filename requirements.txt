@@ -1,0 +1,9 @@
+google
+pandas
+numpy
+scipy
+pillow
+newspaper3k
+fake_useragent
+openpyxl
+httplib2
