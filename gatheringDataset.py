@@ -7,6 +7,7 @@ from urllib.parse import urlencode
 from newspaper import Article
 from fake_useragent import  UserAgent
 
+
 def get_tbs(fromDate, toDate):
     """ return google search tbs parameter for date range
 
@@ -30,13 +31,14 @@ def fill_frame(searchQuery, startDate, endDate, period=0, articlesPerPeriod=5):
     Output:
     pandas dataframe with columns ()
     '''
+    era = (startDate-endDate).days
     ua = UserAgent()
     currentDate = startDate
     df_tofill = pd.DataFrame({'A' : []})
     while currentDate < endDate:
         tbs = get_tbs(currentDate,currentDate+period)
         #listSources = ['https://www.fxempire.com/']
-        for url in search(searchQuery, stop=articlesPerPeriod, pause=15.0,
+        for url in search(searchQuery, stop=articlesPerPeriod, pause=25.0,
          tpe = 'nws', tbs = tbs, user_agent = ua.random ):    # domains = listSources
             h = httplib2.Http()
             resp = h.request(url, 'HEAD')
@@ -70,19 +72,20 @@ def fill_frame(searchQuery, startDate, endDate, period=0, articlesPerPeriod=5):
             pass
 
         currentDate += period + timedelta(days=1)
+        print(f'complete: {100*(startDate-currentDate).days/era} percent')
         pass
     
     return df_tofill
 
 searchQuery = 'eurusd forex'
-startDate=date(2018,6,1)
-peridDays = 3
+startDate=date(2015,1,1)
+peridDays = 2
 
-endDate = date(2018,6,30)
+endDate = date(2016,1,1)
 articlesPerPeriod = 5
 
 timeDelta = timedelta(days=peridDays-1)
 data_fr = fill_frame(searchQuery,startDate, endDate, timeDelta, articlesPerPeriod)
-data_fr.to_excel('june2018.xlsx', sheet_name='Sheet1')
+data_fr.to_excel('15_16_usdeur.xlsx', sheet_name='Sheet1')
 
 
