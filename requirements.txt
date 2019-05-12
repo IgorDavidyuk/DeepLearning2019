@@ -7,3 +7,4 @@ newspaper3k
 fake_useragent
 openpyxl
 httplib2
+xlrd
