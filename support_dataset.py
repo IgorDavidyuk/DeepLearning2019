@@ -56,7 +56,7 @@ def google_links(searchQuery, startDate, endDate, period=0, articlesPerPeriod=5)
         urls = urls[:len(dates)]
     else:
         dates = dates[:len(urls)]
-        
+    #IMPLEMENT DIRECT SAVING TO DISK
     df_tofill = pd.DataFrame({'date' : dates,
                               'urls' : urls})
     return df_tofill
@@ -80,10 +80,13 @@ def parse_urls(dataframe):
     urls = dataframe['urls'].tolist()
 
     articles = [Article(url, config=config) for url in urls]
-    news_pool.set(articles, threads_per_source=2)
+    news_pool.set(articles, override_threads=50)
     news_pool.join()      
-            
+    
+    given_articles = len(dates)      
     for i,article in enumerate(articles):
+        if i%10 == 0:
+            print(f'parsing complete: {round(100*i/given_articles, 2)} %')
         try:
             article.parse()
         except:
@@ -105,13 +108,12 @@ def parse_urls(dataframe):
         }, index=[0])
         if df_tofill.empty:
             df_tofill = localFrame
-        else:
-            
+        else:            
             df_tofill = df_tofill.append(localFrame, ignore_index=True)
         pass
     
      
-    print(f"total articles parsed: {len(dates)}; articles accepted: {total_articles_saved}")
+    print(f"total articles parsed: {given_articles}; articles accepted: {total_articles_saved}")
     return df_tofill
 
 ''''''

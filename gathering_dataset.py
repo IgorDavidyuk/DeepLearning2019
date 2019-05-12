@@ -2,12 +2,12 @@ from datetime import date, timedelta
 import pandas as pd
 from support_dataset import parse_urls, google_links
 
-searchQuery = 'eurusd forex'
-startDate=date(2015,1,1)
-peridDays = 5
-endDate = date(2015,1,11)
-articlesPerPeriod = 8
-timeDelta = timedelta(days=peridDays-1)
+searchQuery = 'crude oil price forecast' #'crude oil price forecast'
+startDate=date(2015,1,10)
+periodDays = 4
+endDate = date(2019,5,11)
+articlesPerPeriod = 10
+timeDelta = timedelta(days=periodDays-1)
 
 name = f'{searchQuery.split()[0]}_{searchQuery.split()[1]}_{str(startDate)}_to_{str(endDate)}'
 
