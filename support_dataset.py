@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 import newspaper
 from newspaper import Article, Config, news_pool
 from fake_useragent import  UserAgent
-
+from tqdm.autonotebook import tqdm, trange
 
 def get_tbs(fromDate, toDate):
     """ return google search tbs parameter for date range
@@ -84,9 +84,9 @@ def parse_urls(dataframe):
     news_pool.join()      
     
     given_articles = len(dates)      
-    for i,article in enumerate(articles):
-        if i%10 == 0:
-            print(f'parsing complete: {round(100*i/given_articles, 2)} %')
+    for i,article in enumerate(tqdm(articles, desc='parsing')):
+        #if i%10 == 0:
+            #print(f'parsing complete: {round(100*i/given_articles, 2)} %')
         try:
             article.parse()
         except:
