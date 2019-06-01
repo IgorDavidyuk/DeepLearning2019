@@ -8,3 +8,4 @@ fake_useragent
 openpyxl
 httplib2
 xlrd
+tqdm
