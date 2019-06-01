@@ -1,2 +1,3 @@
 .google-cookie
 *.xlsx
+.\__pycache__\
